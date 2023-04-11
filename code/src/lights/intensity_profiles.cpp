@@ -19,9 +19,9 @@ void lights::Flickering::initialize() {
 void lights::Flickering::update() {
     // For each light, first roll to see if we change intensity. If so, change 
     // target intensity and tween to the value.
-    double rate = 0.01;
+    uint16_t rate = 2048;
     FOR_LIGHTS(light_idx) {
-        if (random(100) > 98) {
+        if (random(100) > 75) {
             TARGET_INTENSITIES[light_idx] = random(4096);
         }
 
@@ -70,14 +70,15 @@ void lights::Pulsing::initialize() {
     FOR_LIGHTS(light_idx) {
         // Phases can be anywhere between 0 and 2pi
         phases[light_idx] = ((double)random(0, 4096)) / 4096.0 * 2.0 * PI;
-        // Periods are to be anywhere between 1 and 3 seconds
-        periods[light_idx] = ((double)random(0, 4096)) / 4096.0 * 2.0 + 1.0;
+        // Periods are to be anywhere between 1 and 2 seconds
+        periods[light_idx] = ((double)random(0, 4096)) / 4096.0 * 1.0 + 1.0;
     }
 }
 
 void lights::Pulsing::update() {
     FOR_LIGHTS(light_idx) {
         double signal = sin(phases[light_idx]) * 2048.0 + 2048.0;
+        
         INTENSITIES[light_idx] = (uint16_t)signal;
 
         double target_period_us = periods[light_idx] * 1000000.0;

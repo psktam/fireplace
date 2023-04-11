@@ -1,5 +1,6 @@
 #ifndef BUTTON_CONTROL_H
 #define BUTTON_CONTROL_H
+#include <stdint.h>
 
 namespace button_ctrl {
 
@@ -10,10 +11,9 @@ class Button {
         bool current_status;
         bool last_status;
         unsigned long time_since_on_us;
-        unsigned long time_since_off_us;
 
         Button(int _pin_number);
-        bool rising_edge(unsigned long persist_ms);
+        bool rising_edge(uint32_t persist_ms);
         void update();
 };
 

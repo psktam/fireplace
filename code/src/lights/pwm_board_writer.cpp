@@ -16,10 +16,10 @@ void lights::initialize_boards() {
     for (char board = 0; board < 2; board++) {
         Wire.beginTransmission(PWM_BOARD_ADDRS[board]);
         Wire.write(0x00);
-        Wire.write(0x00);
+        Wire.write(0b00100000);
         Wire.endTransmission();
 
-        delay(10);
+        delay(1000);
 
         // Since we will turn on all LEDs at the same time, might as well just
         // set the ON time to 0
@@ -29,6 +29,7 @@ void lights::initialize_boards() {
             Wire.write(0x00);
             Wire.write(0x00);
             Wire.endTransmission();
+            delay(50);
         }
     }
 }
@@ -47,10 +48,14 @@ void lights::write_to_boards() {
             // OFF Low, and OFF high. ON Low gets the least significant 8 bits 
             // of the on time, and ON high gets the most significant 8 bits of 
             // the off time. We will only fiddle with the off times.
+            uint8_t off_low_bytes = duty_cycle & 0xff;
+            uint8_t off_high_bytes = (duty_cycle >> 8) & 0x0f;
+            uint8_t register_addr = 0x06 + (4 * port) + 2;
+
             Wire.beginTransmission(board_addr);
-            Wire.write(0x06 + (4 * port) + 2);
-            Wire.write(duty_cycle);
-            Wire.write(duty_cycle >> 8);
+            Wire.write(register_addr);
+            Wire.write(off_low_bytes);
+            Wire.write(off_high_bytes);
             Wire.endTransmission();
         }
     }

@@ -15,7 +15,10 @@ namespace lights {
  * settings.
 */
 void increment_light_setting(Settings& settings);
+void initialize_lights(Settings& settings);
 void update_lights(Settings& light_setting);
+uint8_t get_num_color_profiles();
+uint8_t get_num_intensity_profiles();
 
 
 class LightProfile {
@@ -34,7 +37,7 @@ class IntensityProfile : public LightProfile {
 };
 
 
-uint16_t tween(uint16_t&, uint16_t&, double&);
+uint16_t tween(uint16_t&, uint16_t&, uint16_t&);
 
 
 };

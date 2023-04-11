@@ -9,7 +9,7 @@ uint16_t TARGET_HUE_SATURATION_ARRAY[9][2];
 void lights::OrangeProfile::initialize() {
     FOR_LIGHTS(light_idx) {
         // Set all hue and saturation values to orange.
-        HUE_SATURATION_ARRAY[light_idx][0] = 1106;
+        HUE_SATURATION_ARRAY[light_idx][0] = 300;
         HUE_SATURATION_ARRAY[light_idx][1] = 4096;
     }
 }
@@ -22,17 +22,17 @@ void lights::OrangeProfile::update() {
 void lights::RandomColorProfile::initialize() {
     FOR_LIGHTS(light_idx) {
         TARGET_HUE_SATURATION_ARRAY[light_idx][0] = random(4096);
-        TARGET_HUE_SATURATION_ARRAY[light_idx][1] = random(4096);
+        TARGET_HUE_SATURATION_ARRAY[light_idx][1] = random(3000, 4096);
     }
 }
 
 void lights::RandomColorProfile::update() {
-    double rate = 0.001;
+    uint16_t rate = 75;
     FOR_LIGHTS(light_idx) {
         // For each light, roll to see if we want to change color. Then tween
         // to the target color.
 
-        if (random(100) > 98) {  // Change color.
+        if (random(500) > 498) {  // Change color.
             TARGET_HUE_SATURATION_ARRAY[light_idx][0] = random(4096);
             TARGET_HUE_SATURATION_ARRAY[light_idx][1] = random(4096);
         }
